@@ -72,7 +72,7 @@ for index, row in combo.iterrows():
 						color=cmap(int(row['estCustAffected'])),
 						fill=True).add_to(folium_map)
 
-folium_map.save('my_map.html')
+folium_map.save('./docs/my_map.html')
 
 '''
 # 1. Draw the map background
