@@ -61,7 +61,7 @@ mininc = inc.min()
 maxinc = inc.max()
 
 start_lat = 39
-start_lon = -122
+start_lon = -121.5
 
 folium_map = folium.Map(location=[start_lat, start_lon], 
 						zoom_start = 8)
