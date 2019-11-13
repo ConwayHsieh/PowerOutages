@@ -2,9 +2,11 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.basemap import Basemap
+from matplotlib import cm
+import folium
+#from mpl_toolkits.basemap import Basemap
 import os
-os.environ['PROJ_LIB'] = 'D:\\Anaconda3\\Lib\\site-packages\\mpl_toolkits\\basemap'
+#os.environ['PROJ_LIB'] = 'D:\\Anaconda3\\Lib\\site-packages\\mpl_toolkits\\basemap'
 pd.set_option('display.max_columns', None)
 
 outages = pd.read_csv('outage_snapshots.csv')
@@ -55,6 +57,24 @@ aff = combo['estCustAffected'].astype(int).values
 inc = combo['Per capita income'].astype(int).values
 #print(inc)
 
+start_lat = 39
+start_lon = -122
+
+folium_map = folium.Map(location=[start_lat, start_lon], 
+						zoom_start = 8)#,
+						#tiles="CartoDB dark_matter")
+
+cmap = cm.get_cmap('viridis', 12)
+for index, row in combo.iterrows():
+	#print(row['estCustAffected'])
+	folium.CircleMarker(location=(row['latitude'], row['longitude']),
+						radius=int(row['Per capita income'])/5000,
+						color=cmap(int(row['estCustAffected'])),
+						fill=True).add_to(folium_map)
+
+folium_map.save('my_map.html')
+
+'''
 # 1. Draw the map background
 fig = plt.figure(figsize=(8, 8))
 m = Basemap(projection='lcc', resolution='h', 
@@ -86,3 +106,4 @@ plt.legend(scatterpoints=1, frameon=False,
 
 plt.title('Income and Customers Affected by Electric Outage due to Fires')
 plt.show()
+'''
