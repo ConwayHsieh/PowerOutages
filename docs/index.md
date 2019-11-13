@@ -1,2 +1,2 @@
 # Page for Interactive Map
-[Link to interactive map](https://github.com/ConwayHsieh/PowerOutages/blob/master/docs/my_map.html)
+[Link to interactive map](https://conwayhsieh.github.io/PowerOutages/my_map.html)
