@@ -5,7 +5,9 @@ Comparing PG&E Power outages; number of customers without power due to preventat
 Sources:
 
 https://pge-outages.simonwillison.net/pge-outages
+
 https://en.wikipedia.org/wiki/List_of_California_locations_by_income
+
 https://jakevdp.github.io/PythonDataScienceHandbook/04.13-geographic-data-with-basemap.html
 
 # Page for Interactive Map
