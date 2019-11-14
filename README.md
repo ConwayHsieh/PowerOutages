@@ -2,7 +2,7 @@
 
 Comparing PG&E Power outages; number of customers without power due to preventative shutdown for fires vs population, population density, or income
 
-[Link to interactive map](https://conwayhsieh.github.io/PowerOutages/my_map.html)
+[Link to interactive map](https://conwayhsieh.github.io/PowerOutages/poweroutages_income.html)
 
 ## Sources:
 
