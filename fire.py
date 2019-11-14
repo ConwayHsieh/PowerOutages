@@ -104,4 +104,24 @@ for feat_group in feat_list:
     folium_map.add_child(feat_group)
 folium_map.add_child(cmap)
 folium.LayerControl().add_to(folium_map)
-folium_map.save('./docs/my_map.html')
+
+title_html = '''
+	<html>
+	<head>
+		<title>Power Outages Map</title>
+	</head>
+	<body>
+		<p>This map shows <strong>number of customers affected by power outages
+		</strong><em>(shown in size or radius of each circle)</em> vs the 
+		<strong>per capita income</strong> of the places these customers reside 
+		<em>(colormap)</em> </p>
+		<p>You can <em>click each bubble</em> to find more detailed information
+		such as the exact income or number of customers affected</p>
+		<p><strong>Filtering by income</strong> is available by checking or 
+		unchecking income categories after hovering over the layers button in 
+		the right hand corner, under the color bar</p>
+	</body>
+	</html>
+	'''
+folium_map.get_root().html.add_child(folium.Element(title_html))
+folium_map.save('./docs/poweroutages_income.html')
