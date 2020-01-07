@@ -8,46 +8,14 @@ from folium.map import FeatureGroup
 import branca
 import branca.colormap as cm
 import os
+from uszipcode import SearchEngine
 pd.set_option('display.max_columns', None)
 
+# set up zipcode
+search = SearchEngine(simple_zipcode=True)
+
 outages = pd.read_csv('outage_snapshots.csv')
-geo = outages[['regionName_label', 'latitude', 'longitude']]
-geo = geo.rename({'regionName_label': 'Place'}, axis='columns')
-geo = geo.groupby(['Place']).mean()
-#print(geo)
-outages = outages[['outage', 'estCustAffected', 'snapshot_label', 'regionName_label']]
-outages = outages.rename({'regionName_label': 'Place'}, axis='columns')
-#print(outages.shape)
-outages = outages[outages.groupby('outage')['snapshot_label'].transform(max) == \
-outages['snapshot_label']]
-outages = outages.drop(['outage', 'snapshot_label'], 1) 
-outages = outages.groupby(['Place']).sum()
-outages = pd.merge(outages, geo, on='Place', how='left')
-
-#print(outages.head())
-#print(outages.shape)
-
-#outages.sort_values('outage', ascending=False).drop_duplicates(['outage', 'snapshot_label'], inplace=True)
-pop_income = pd.read_csv('california_pop_income.csv')
-pop_income = pop_income.replace('[7]', '$0,')
-#print(pop_income.head())
-pop_income['Per capita income'] = pop_income['Per capita income'].str.replace('$', '')
-pop_income['Per capita income'] = pop_income['Per capita income'].str.replace(',', '')
-pop_income['Median household income'] = pop_income['Median household income'].str.replace(',', '')
-pop_income['Median household income'] = pop_income['Median household income'].str.replace('$', '')
-pop_income['Median family income'] = pop_income['Median family income'].str.replace(',', '')
-pop_income['Median family income'] = pop_income['Median family income'].str.replace('$', '')
-pop_income = pop_income.drop('County', 1)
-#print(len(outages['outage'].unique().tolist()))
-#print('meow')
-#print(pop_income.head())
-#print(pop_income.shape)
-combo = pd.merge(outages, pop_income, on='Place', how='inner')
-#print(combo.head())
-#combo = combo[['outage', 'estCustAffected,']]
-#print(combo.head())
-#print(combo.shape)
-#print(combo)
+outages['zipcode'] = search.by_coordinates(outages['latitude', 'longitude'])
 
 lon = combo['longitude'].values
 lat = combo['latitude'].values
