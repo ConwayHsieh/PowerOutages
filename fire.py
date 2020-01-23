@@ -8,23 +8,18 @@ from folium.map import FeatureGroup
 import branca
 import branca.colormap as cm
 import os
-from uszipcode import SearchEngine
+#from uszipcode import SearchEngine
 pd.set_option('display.max_columns', None)
 
-# set up zipcode
-search = SearchEngine(simple_zipcode=True)
+outages = pd.read_csv('outages_zip.csv')
+#print(outages.head())
 
-outages = pd.read_csv('outage_snapshots.csv')
-outages['zipcode'] = search.by_coordinates(outages['latitude', 'longitude'])
-
-lon = combo['longitude'].values
-lat = combo['latitude'].values
-dens = combo['Population Density'].astype(int).values
-pop = combo['Population']
-aff = combo['estCustAffected'].astype(int).values
-#print(aff)
-inc = combo['Per capita income'].astype(int).values
-#print(inc)
+lon = outages['longitude'].values
+lat = outages['latitude'].values
+dens = outages['pop_dens'].astype(int).values
+pop = outages['pop']
+aff = outages['estCustAffected'].astype(int).values
+inc = outages['med_house_inc'].astype(int).values
 
 thousand = 1000
 mininc = inc.min()/thousand
@@ -40,30 +35,36 @@ feature_group3 = FeatureGroup(name='$50,000-$80,000 Per Capita Income')
 feature_group4 = FeatureGroup(name='$80,000-$100,000 Per Capita Income')
 feature_group5 = FeatureGroup(name='More than $100,000 Per Capita Income')
 
-feat_list = [feature_group1, feature_group2, feature_group3, feature_group4, feature_group5]
+feat_list = [feature_group1, feature_group2, feature_group3, \
+	feature_group4, feature_group5]
 
 folium_map = folium.Map(location=[start_lat, start_lon], 
 						zoom_start = 8)
 cmap = cm.LinearColormap(colors=['red', 'yellow'], index=[mininc, maxinc],
     vmin=mininc, vmax=maxinc)
 cmap = cmap.to_step(n=12, method='log', round_method='log10')
-cmap.caption = 'Per Capita Income in Thousands of Dollars ($1,000)'
+cmap.caption = 'Median Household Income in Thousands of Dollars ($1,000)'
 
-for index, row in combo.iterrows():
-    popup_text = """Place: {}<br> 
-                    Estimate Customers Affected: {}<br>
-                    Per Capita Income of Place: ${}"""
-    popup_text = popup_text.format(row['Place'],
+for index, row in outages.iterrows():
+    popup_text = """Zip Code: {}<br> 
+                    Estimated Customers Affected: {}<br>
+                    Population Density: {}<br>
+                    Total Population: {}<br>
+                    Median Household Income: ${}"""
+    popup_text = popup_text.format(int(row['zip']),
                                    int(row['estCustAffected']),
-                                   row['Per capita income'])
+                                   int(row['pop_dens']),
+                                   int(row['pop']),
+                                   int(row['med_house_inc']))
 
-    income = int(row['Per capita income'])
+    income = int(row['med_house_inc'])
     for i in range(len(feat_list)):
         if income in range(income_steps[i], income_steps[i+1]):
             f = feat_list[i]
 
-    folium.CircleMarker(location=(row['latitude'], row['longitude']),
-        radius=row['estCustAffected']/700,
+    folium.Circle(location=(row['latitude'], row['longitude']),
+        radius=(row['estCustAffected'])/5,#/row['pop'])*500,
+        #radius = (row['duration_hours'])*500,
         color=cmap(income/thousand),
         popup=popup_text,
         fill=True).add_to(f)
@@ -73,7 +74,10 @@ for feat_group in feat_list:
 folium_map.add_child(cmap)
 folium.LayerControl().add_to(folium_map)
 
-title_html = '''
+'''
+'''
+#title_html = '''
+'''
 	<html>
 	<head>
 		<title>Power Outages Map</title>
@@ -91,5 +95,5 @@ title_html = '''
 	</body>
 	</html>
 	'''
-folium_map.get_root().html.add_child(folium.Element(title_html))
-folium_map.save('./docs/poweroutages_income.html')
+#folium_map.get_root().html.add_child(folium.Element(title_html))
+folium_map.save('./docs/poweroutages_income_raw.html')
