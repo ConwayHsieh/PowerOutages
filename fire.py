@@ -40,7 +40,7 @@ feat_list = [feature_group1, feature_group2, feature_group3, \
 
 folium_map = folium.Map(location=[start_lat, start_lon], 
 						zoom_start = 8)
-cmap = cm.LinearColormap(colors=['red', 'yellow'], index=[mininc, maxinc],
+cmap = cm.LinearColormap(colors=['red', 'blue'], index=[mininc, maxinc],
     vmin=mininc, vmax=maxinc)
 cmap = cmap.to_step(n=12, method='log', round_method='log10')
 cmap.caption = 'Median Household Income in Thousands of Dollars ($1,000)'
@@ -63,8 +63,8 @@ for index, row in outages.iterrows():
             f = feat_list[i]
 
     folium.Circle(location=(row['latitude'], row['longitude']),
-        radius=(row['estCustAffected'])/5,#/row['pop'])*500,
-        #radius = (row['duration_hours'])*500,
+        radius=(row['estCustAffected']/row['pop'])*500,
+        #radius = (row['duration_hours'])*500, #* row['estCustAffected'])/50,
         color=cmap(income/thousand),
         popup=popup_text,
         fill=True).add_to(f)
@@ -96,4 +96,4 @@ folium.LayerControl().add_to(folium_map)
 	</html>
 	'''
 #folium_map.get_root().html.add_child(folium.Element(title_html))
-folium_map.save('./docs/poweroutages_income_raw.html')
+folium_map.save('./docs/poweroutages_popdens.html')
