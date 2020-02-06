@@ -8,7 +8,6 @@ Comparing PG&E Power outages; number of customers without power due to preventat
 
 [Link to interactive map: Population Density](https://conwayhsieh.github.io/PowerOutages/poweroutages_population.html)
 
-
 ## Sources:
 
 https://pge-outages.simonwillison.net/pge-outages
