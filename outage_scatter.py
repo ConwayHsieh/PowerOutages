@@ -37,7 +37,12 @@ fig.add_trace(
 	marker=dict(
         size=dot_size,
         color='crimson', # set color to an array/list of desired values
-        opacity=op)))
+        opacity=op),
+	hovertemplate = 
+	'Population Density: %{x}'+
+    '<br>Median Household Income: %{y}<br>'+
+    'Average Duration of Power Outage: %{z}')
+	)
 
 fig.add_trace(
     go.Scatter3d(x=f2['pop_dens'], \
@@ -49,7 +54,12 @@ fig.add_trace(
 	marker=dict(
         size=dot_size,
         color='darkcyan', # set color to an array/list of desired values
-        opacity=op)))
+        opacity=op),
+    	hovertemplate = 
+	'Population Density: %{x}'+
+    '<br>Median Household Income: %{y}<br>'+
+    'Average Duration of Power Outage: %{z}')
+	)
 
 fig.update_layout(
     updatemenus=[
@@ -58,31 +68,25 @@ fig.update_layout(
             buttons=list([
                 dict(label="Both",
                      method="update",
-                     args=[{"visible": [True, True]},
-                           {"title": "GMM",
-                            "annotations": []}]),
+                     args=[{"visible": [True, True]}]),
                 dict(label="Cluster 1",
                      method="update",
-                     args=[{"visible": [True, False]},
-                           {"title": "GMM 1",
-                            "annotations": []}]),
+                     args=[{"visible": [True, False]}]),
                 dict(label="Cluster 2",
                      method="update",
-                     args=[{"visible": [False, True]},
-                           {"title": "GMM2",
-                            "annotations": []}])
+                     args=[{"visible": [False, True]}])
             ]),
         )
     ])
 
 # Update remaining layout properties
 fig.update_layout(
-    title_text="GMM Clustering",
+    title_text="Average Duration of Power Outages per Zip Code",
     showlegend=True,
 )
 
 fig.update_layout(scene = dict(
-    xaxis_title="Population Density",
+    xaxis_title="Population Density (People/Mile<sup>2</sup>)",
     yaxis_title="Median Household Income ($)",
     zaxis_title="Average Duration (Hours)")
 )
