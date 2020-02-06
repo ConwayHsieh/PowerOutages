@@ -4,9 +4,9 @@ Comparing PG&E Power outages; number of customers without power due to preventat
 
 **Size of circles always indicates the number of customers affected.**
 
-[Link to interactive map: Income](https://conwayhsieh.github.io/PowerOutages/poweroutages_income.html)
-
 [Link to interactive map: Population Density](https://conwayhsieh.github.io/PowerOutages/poweroutages_population.html)
+
+[Link to cluster figure](https://conwayhsieh.github.io/PowerOutages/cluster.html)
 
 ## Sources:
 
