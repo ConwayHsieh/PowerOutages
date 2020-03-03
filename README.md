@@ -1,6 +1,6 @@
 # Power Outages
 
-Comparing PG&E Power outages; number of customers without power due to preventative shutdown for fires vs population, population density, or income
+Comparing PG&E Power outages; number of customers without power due to preventative shutdown for fires vs population, population density.
 
 **Size of circles indicates the average duration of power outage.**
 
